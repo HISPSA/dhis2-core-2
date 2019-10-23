@@ -615,7 +615,6 @@
     <property name="sessionFactory" ref="sessionFactory" />
     <property name="jdbcTemplate" ref="jdbcTemplate" />
     <property name="statementBuilder" ref="statementBuilder" />
-    <property name="organisationUnitStore" ref="org.hisp.dhis.organisationunit.OrganisationUnitStore"/>
   </bean>
 
   <bean id="org.hisp.dhis.trackedentity.TrackedEntityProgramOwnerStore"
@@ -717,6 +716,48 @@
     <property name="clazz" value="org.hisp.dhis.programrule.ProgramRuleAction" />
     <property name="sessionFactory" ref="sessionFactory" />
     <property name="cacheable" value="true" />
+  </bean>
+  
+    			<!-- Approval Validation Rule -->
+
+  <bean id="org.hisp.dhis.approvalvalidationrule.ApprovalValidationRuleStore" class="org.hisp.dhis.approvalvalidationrule.hibernate.HibernateApprovalValidationRuleStore">
+    <property name="clazz" value="org.hisp.dhis.approvalvalidationrule.ApprovalValidationRule" />
+    <property name="sessionFactory" ref="sessionFactory" />
+    <property name="cacheable" value="true" />
+  </bean>
+  
+  <bean id="org.hisp.dhis.approvalvalidationrule.ApprovalValidationRuleService" class="org.hisp.dhis.approvalvalidationrule.DefaultApprovalValidationRuleService">
+    <property name="approvalValidationRuleStore" ref="org.hisp.dhis.approvalvalidationrule.ApprovalValidationRuleStore" />
+  </bean>
+  
+  			<!-- Approval Validation -->
+
+  <bean id="org.hisp.dhis.approvalvalidationrule.ApprovalValidationStore" class="org.hisp.dhis.approvalvalidationrule.hibernate.HibernateApprovalValidationStore">
+    <property name="clazz" value="org.hisp.dhis.approvalvalidationrule.ApprovalValidation" />
+    <property name="sessionFactory" ref="sessionFactory" />
+    <property name="cacheable" value="true" />
+  </bean>
+  
+  		<!-- Approval Validation Audit -->
+  <bean id="org.hisp.dhis.approvalvalidationrule.ApprovalValidationAuditStore" class="org.hisp.dhis.approvalvalidationrule.hibernate.HibernateApprovalValidationAuditStore">
+	<property name="sessionFactory" ref="sessionFactory" />
+	<property name="periodStore" ref="org.hisp.dhis.period.PeriodStore" />
+  </bean>
+
+  <bean id="org.hisp.dhis.approvalvalidationrule.ApprovalValidationAuditService" class="org.hisp.dhis.approvalvalidationrule.DefaultApprovalValidationAuditService">
+    <property name="approvalValidationAuditStore" ref="org.hisp.dhis.approvalvalidationrule.ApprovalValidationAuditStore" />
+  </bean>
+  
+  <bean id="org.hisp.dhis.approvalvalidationrule.ApprovalValidationAuditDeletionHandler" class="org.hisp.dhis.approvalvalidationrule.ApprovalValidationAuditDeletionHandler">
+    <property name="jdbcTemplate" ref="jdbcTemplate" />
+  </bean> 		
+  		
+  <bean id="org.hisp.dhis.approvalvalidationrule.ApprovalValidationService" class="org.hisp.dhis.approvalvalidationrule.DefaultApprovalValidationService">
+  	<property name="approvalValidationStore" ref="org.hisp.dhis.approvalvalidationrule.ApprovalValidationStore" />
+  	<property name="approvalValidationAuditService" ref="org.hisp.dhis.approvalvalidationrule.ApprovalValidationAuditService" />
+    <property name="periodService" ref="org.hisp.dhis.period.PeriodService" />
+    <property name="currentUserService" ref="org.hisp.dhis.user.CurrentUserService" />
+    <property name="categoryService" ref="org.hisp.dhis.category.CategoryService" />
   </bean>
 
   <!-- ProgramRule Engine -->
@@ -1245,7 +1286,6 @@
     <property name="identifiableObjectManager" ref="org.hisp.dhis.common.IdentifiableObjectManager" />
     <property name="programNotificationRenderer" ref="programNotificationMessageRenderer" />
     <property name="programStageNotificationRenderer" ref="programStageNotificationMessageRenderer" />
-    <property name="programNotificationStore" ref="org.hisp.dhis.program.notification.ProgramNotificationTemplateStore" />
   </bean>
 
   <bean id="org.hisp.dhis.program.notification.ProgramNotificationPublisher"
@@ -1579,6 +1619,7 @@
         <value>sqlview</value>
         <value>dataentryform</value>
         <value>smscommands</value>
+        <value>approvalvalidationrule</value>
       </list>
     </property>
   </bean>

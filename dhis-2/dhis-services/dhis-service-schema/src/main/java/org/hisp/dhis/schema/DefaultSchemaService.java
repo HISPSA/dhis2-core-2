@@ -168,6 +168,8 @@ public class DefaultSchemaService
         add( new RelationshipSchemaDescriptor() ).
         add( new ProgramStageInstanceSchemaDescriptor() ).
         add( new ProgramInstanceSchemaDescriptor() ).
+        add( new ApprovalValidationRuleSchemaDescriptor() ).
+        add( new ApprovalValidationSchemaDescriptor() ).
         build();
 
     private Map<Class<?>, Schema> classSchemaMap = new HashMap<>();

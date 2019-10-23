@@ -1,5 +1,6 @@
 package org.hisp.dhis.system.deletion;
 
+
 /*
  * Copyright (c) 2004-2018, University of Oslo
  * All rights reserved.
@@ -122,6 +123,7 @@ import org.hisp.dhis.validation.ValidationResult;
 import org.hisp.dhis.validation.ValidationRule;
 import org.hisp.dhis.validation.ValidationRuleGroup;
 import org.hisp.dhis.validation.notification.ValidationNotificationTemplate;
+import org.hisp.dhis.approvalvalidationrule.ApprovalValidationRule;
 
 /**
  * A DeletionHandler should override methods for objects that, when deleted,
@@ -1000,5 +1002,10 @@ public abstract class DeletionHandler
 
     public void deleteFileResource( FileResource fileResource )
     {
+    }
+    
+    public String allowDeleteApprovalValidationRule( ApprovalValidationRule approvalValidationRule )
+    {
+        return null;
     }
 }

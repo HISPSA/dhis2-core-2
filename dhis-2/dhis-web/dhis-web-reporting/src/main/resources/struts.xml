@@ -178,6 +178,15 @@
     <action name="getOrgUnitDistributionChart" class="org.hisp.dhis.reporting.orgunitdistribution.action.GetOrgUnitDistributionChartAction">
       <result name="success" type="chart"></result>
     </action>
+    
+    <!-- Approval Validation Rule -->
+    <action name="viewApprovalValidationRule" class="org.hisp.dhis.reporting.dataapproval.action.GetApprovalValidationRuleAction">
+      <result name="success" type="velocity">/dhis-web-reporting/approvalValidationRule.vm</result>
+    </action>
+    
+    <action name="addApprovalValidation" class="org.hisp.dhis.reporting.dataapproval.action.AddApprovalValidationAction">
+      <result name="success" type="redirect">displayViewReportForm.action</result>
+    </action>
 
   </package>
 </struts>
