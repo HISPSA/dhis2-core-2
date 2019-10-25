@@ -288,7 +288,9 @@ public class GenerateDataSetReportAction
             }
             else
             {
-                customDataEntryFormCode = dataSetReportService.getCustomDataSetReport( selectedDataSet, selectedPeriod, selectedOrgunit, dimension, selectedUnitOnly, format );
+                //customDataEntryFormCode = dataSetReportService.getCustomDataSetReport( selectedDataSet, selectedPeriod, selectedOrgunit, dimension, selectedUnitOnly, format );
+                
+                grids = dataSetReportService.getDefaultDataSetReport( selectedDataSet, selectedPeriod, selectedOrgunit, dimension, selectedUnitOnly, format, i18n );
             }
         }
         else if ( formType.isSection() )

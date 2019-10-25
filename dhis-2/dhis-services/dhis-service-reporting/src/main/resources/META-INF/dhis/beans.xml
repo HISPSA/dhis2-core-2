@@ -129,9 +129,13 @@
   <bean id="org.hisp.dhis.datasetreport.DataSetReportService" class="org.hisp.dhis.datasetreport.impl.DefaultDataSetReportService">
     <property name="dataValueService" ref="org.hisp.dhis.datavalue.DataValueService" />
     <property name="dataSetReportStore" ref="org.hisp.dhis.datasetreport.DataSetReportStore" />
+    <property name="categoryService" ref="org.hisp.dhis.category.CategoryService" />
+    <property name="dataSetService" ref="org.hisp.dhis.dataset.DataSetService" />
   </bean>
 
   <bean id="org.hisp.dhis.datasetreport.DataSetReportStore" class="org.hisp.dhis.datasetreport.jdbc.AnalyticsDataSetReportStore" />
+  
+  
 
   <!-- Dashboard -->
 

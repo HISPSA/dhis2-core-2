@@ -134,7 +134,8 @@
     <action name="generateDataSetReport" class="org.hisp.dhis.reporting.dataset.action.GenerateDataSetReportAction">
       <result name="DEFAULT" type="velocity">/dhis-web-reporting/renderSectionDataSetReportForm.vm</result>
       <result name="SECTION" type="velocity">/dhis-web-reporting/renderSectionDataSetReportForm.vm</result>
-      <result name="CUSTOM" type="velocity">/dhis-web-reporting/renderCustomDataSetReportForm.vm</result>
+      <!-- <result name="CUSTOM" type="velocity">/dhis-web-reporting/renderCustomDataSetReportForm.vm</result> -->
+      <result name="CUSTOM" type="velocity">/dhis-web-reporting/renderSectionDataSetReportForm.vm</result>
       <result name="xls" type="gridXlsResult" />
       <result name="pdf" type="gridPdfResult" />
     </action>

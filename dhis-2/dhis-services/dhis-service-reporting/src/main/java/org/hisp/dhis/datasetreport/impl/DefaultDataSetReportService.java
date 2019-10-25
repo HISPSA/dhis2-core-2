@@ -50,9 +50,11 @@ import org.hisp.dhis.dataelement.DataElement;
 import org.hisp.dhis.category.CategoryCombo;
 import org.hisp.dhis.category.CategoryOption;
 import org.hisp.dhis.category.CategoryOptionCombo;
+import org.hisp.dhis.category.CategoryService;
 import org.hisp.dhis.dataentryform.DataEntryForm;
 import org.hisp.dhis.dataset.DataSet;
 import org.hisp.dhis.dataset.DataSetElement;
+import org.hisp.dhis.dataset.DataSetService;
 import org.hisp.dhis.dataset.Section;
 import org.hisp.dhis.dataset.comparator.SectionOrderComparator;
 import org.hisp.dhis.datasetreport.DataSetReportService;
@@ -77,6 +79,8 @@ public class DefaultDataSetReportService
 {   
     private static final String DEFAULT_HEADER = "Value";
     private static final String TOTAL_HEADER = "Total";
+    private static final String MONTH_TOTAL_HEADER = "MonthTotal";
+    private static final String GRAND_TOTAL_HEADER = "GrandTotal";
     private static final String SPACE = " ";
     
     private static final String ATTR_DE = "de";
@@ -98,6 +102,20 @@ public class DefaultDataSetReportService
     public void setDataSetReportStore( DataSetReportStore dataSetReportStore )
     {
         this.dataSetReportStore = dataSetReportStore;
+    }
+    
+    private CategoryService categoryService;
+
+    public void setCategoryService( CategoryService categoryService )
+    {
+        this.categoryService = categoryService;
+    }
+    
+    private DataSetService dataSetService;
+
+    public void setDataSetService( DataSetService dataSetService )
+    {
+        this.dataSetService = dataSetService;
     }
 
     // -------------------------------------------------------------------------
@@ -146,6 +164,12 @@ public class DefaultDataSetReportService
 
         List<Grid> grids = new ArrayList<>();
         
+        List<CategoryCombo> categoryCos = new ArrayList<>( categoryService.getAllCategoryCombos() );
+        List<DataSet> dataSets = new ArrayList<>( dataSetService.getAllDataSets() );
+        
+        
+        
+        
         // ---------------------------------------------------------------------
         // Create a grid for each section
         // ---------------------------------------------------------------------
@@ -184,6 +208,19 @@ public class DefaultDataSetReportService
                 {
                     grid.addHeader( new GridHeader( TOTAL_HEADER, false, false ) );
                 }
+                
+                if ( categoryCombo.doTotal() && !selectedUnitOnly ) // MonthTotal
+                {
+                    grid.addHeader( new GridHeader( MONTH_TOTAL_HEADER, false, false ) );
+                }
+                
+                if ( categoryCombo.doTotal() && !selectedUnitOnly ) // GrandTotal
+                {
+                    grid.addHeader( new GridHeader( GRAND_TOTAL_HEADER, false, false ) );
+                }             
+                
+                
+                
     
                 // -----------------------------------------------------------------
                 // Grid values
@@ -236,6 +273,67 @@ public class DefaultDataSetReportService
     
                         grid.addValue( new GridValue( value ) );
                     }
+                    
+                    if ( categoryCombo.doTotal() && !selectedUnitOnly ) // MonthTotal
+                    {
+                        
+                        Object value = null;
+                    	double total = 0;
+                    	                  	
+                    	Object valueDs = null;   
+                    	
+                    	List<CategoryOptionCombo> optionCombosMonthTotal = categoryService.getCategoryComboByName("MonthTotal").getSortedOptionCombos();
+                        
+                        for ( DataSet dataSt : dataSets ) 
+                        {
+                        	Map<String, Object> dataSetMap = dataSetReportStore.getAggregatedTotals( dataSt, period, unit, dimensions );                       	                        	
+                        	
+                        	for ( CategoryOptionCombo optionCombo : optionCombosMonthTotal ) // Values
+                            {
+	                        	valueDs = dataSetMap.get( dataElement.getUid() + SEPARATOR + optionCombo.getUid() );
+	                            	
+	                            double val = valueDs != null  ? Double.parseDouble( (String) valueDs ) : 0;
+	                            	
+	                            total += val;
+                            }                       	
+                        	
+                        }  
+                    	
+                    	value = total;
+                        
+                        grid.addValue( new GridValue( value ) );
+                    }
+                    
+                    if ( categoryCombo.doTotal() && !selectedUnitOnly ) // GrandTotal
+                    {
+                    	/*Object value = totalMap.get( String.valueOf( dataElement.getUid() ) );
+                        
+                        grid.addValue( new GridValue( value ) );*/
+                    	Object value = null;
+                    	double total = 0;
+                    	                  	
+                    	Object valueDs = null;                                                            
+                        
+                        for ( DataSet dataSt : dataSets ) 
+                        {
+                        	Map<String, Object> dataSetMap = dataSetReportStore.getAggregatedTotals( dataSt, period, unit, dimensions );
+                        	
+                        	for ( CategoryOptionCombo optionCombo : optionCombos ) // Values
+                            {
+                        		valueDs = dataSetMap.get( dataElement.getUid() + SEPARATOR + optionCombo.getUid() );
+                            	
+                            	double val = valueDs != null  ? Double.parseDouble( (String) valueDs ) : 0;
+                            	
+                            	total += val;
+                            }                       	
+                        	
+                        }  
+                    	
+                    	value = total;
+                        
+                        grid.addValue( new GridValue( value ) );
+                    }
+                                        
                 }
     
                 grids.add( grid );
