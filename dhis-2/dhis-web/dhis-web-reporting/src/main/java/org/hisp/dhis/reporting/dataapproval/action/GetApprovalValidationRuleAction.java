@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.hisp.dhis.approvalvalidationrule.ApprovalValidation;
 import org.hisp.dhis.approvalvalidationrule.ApprovalValidationRule;
@@ -30,25 +31,26 @@ import com.opensymphony.xwork2.Action;
 public class GetApprovalValidationRuleAction
     implements Action
 {
-	private static final String SEPERATOR = " - ";
-	
+    private static final String SEPERATOR = " - ";
+
     // -------------------------------------------------------------------------
     // Dependencies
     // -------------------------------------------------------------------------
 
+    private ApprovalValidationRuleService approvalValidationRuleService;
 
-    private ApprovalValidationRuleService approvalValidationRuleService;  
+    public void setApprovalValidationRuleService( ApprovalValidationRuleService approvalValidationRuleService )
+    {
+        this.approvalValidationRuleService = approvalValidationRuleService;
+    }
 
-	public void setApprovalValidationRuleService(ApprovalValidationRuleService approvalValidationRuleService) {
-		this.approvalValidationRuleService = approvalValidationRuleService;
-	}
-	
-    private ApprovalValidationService approvalValidationService;  
-    
-    public void setApprovalValidationService(ApprovalValidationService approvalValidationService) {
-		this.approvalValidationService = approvalValidationService;
-	}
-    
+    private ApprovalValidationService approvalValidationService;
+
+    public void setApprovalValidationService( ApprovalValidationService approvalValidationService )
+    {
+        this.approvalValidationService = approvalValidationService;
+    }
+
     private DataSetService dataSetService;
 
     public void setDataSetService( DataSetService dataSetService )
@@ -62,7 +64,7 @@ public class GetApprovalValidationRuleAction
     {
         this.organisationUnitService = organisationUnitService;
     }
-    
+
     private PeriodService periodService;
 
     public void setPeriodService( PeriodService periodService )
@@ -76,7 +78,7 @@ public class GetApprovalValidationRuleAction
     {
         this.categoryService = categoryService;
     }
-    
+
     private I18nFormat format;
 
     public void setFormat( I18nFormat format )
@@ -84,11 +86,10 @@ public class GetApprovalValidationRuleAction
         this.format = format;
     }
 
-
     // -------------------------------------------------------------------------
     // Input
     // -------------------------------------------------------------------------
-    
+
     private String ds;
 
     public void setDs( String ds )
@@ -110,50 +111,38 @@ public class GetApprovalValidationRuleAction
         this.ou = ou;
     }
 
-
     // -------------------------------------------------------------------------
     // Output
     // -------------------------------------------------------------------------
 
-    
-    
+    private List<ApprovalValidation> approvalValidations;
 
-	private List<ApprovalValidation> approvalValidations;
-    
-    public List<ApprovalValidation> getApprovalValidations() {
-		return approvalValidations;
-	}
+    public List<ApprovalValidation> getApprovalValidations()
+    {
+        return approvalValidations;
+    }
 
-    
     private List<ApprovalValidationRule> approvalValidationRules;
-    
-    public List<ApprovalValidationRule> getApprovalValidationRules() {
-		return approvalValidationRules;
-	}
-    
-    
+
+    public List<ApprovalValidationRule> getApprovalValidationRules()
+    {
+        return approvalValidationRules;
+    }
+
     private Map<Integer, Boolean> approvalValidationMap = new HashMap<>();
 
-    public Map<Integer, Boolean> getApprovalValidationMap() {
-		return approvalValidationMap;
-	}
-
-
-
-    /*private String storedBy;
-
-    public String getStoredBy()
+    public Map<Integer, Boolean> getApprovalValidationMap()
     {
-        return storedBy;
-    }*/
-    
+        return approvalValidationMap;
+    }
+
     private DataSet selectedDataSet;
 
     public DataSet getSelectedDataSet()
     {
         return selectedDataSet;
     }
-    
+
     private OrganisationUnit selectedOrgunit;
 
     public OrganisationUnit getSelectedOrgunit()
@@ -167,76 +156,74 @@ public class GetApprovalValidationRuleAction
     {
         return selectedPeriod;
     }
-    
+
     private String titleName;
 
-    public String getTitleName() {
-		return titleName;
-	}
-    
+    public String getTitleName()
+    {
+        return titleName;
+    }
+
     // -------------------------------------------------------------------------
     // Action implementation
     // -------------------------------------------------------------------------
 
-	@Override
+    @Override
     public String execute()
         throws Exception
     {
-    	if ( pe != null )
+        if ( pe != null )
         {
             selectedPeriod = PeriodType.getPeriodFromIsoString( pe );
             selectedPeriod = periodService.reloadPeriod( selectedPeriod );
         }
-    	
-    	selectedDataSet = dataSetService.getDataSetNoAcl( ds );
+
+        selectedDataSet = dataSetService.getDataSetNoAcl( ds );
 
         selectedOrgunit = organisationUnitService.getOrganisationUnit( ou );
-        
-        
-        titleName = selectedDataSet.getName() + SEPERATOR + selectedOrgunit.getName() + SEPERATOR + format.formatPeriod( selectedPeriod );
-    	
-    	List<Period> periods = new ArrayList<>();
-    	periods.add(selectedPeriod);
-    	
-    	approvalValidationRules = approvalValidationRuleService.getAllApprovalValidationRules();
-    	
-    	approvalValidations = approvalValidationService.getApprovalValidations(selectedDataSet, selectedOrgunit, false, approvalValidationRules, periods);
 
-    	addApprovalValidation(  approvalValidationMap, approvalValidations );
-    	
-    	addMissingApprovalValidation(approvalValidationMap, approvalValidationRules);
-    	
-    	
-    	System.out.println("approvalValidationRules: " + approvalValidationRules);
-    	System.out.println("approvalValidations: " + approvalValidations);
-    	System.out.println("approvalValidations: " + approvalValidationMap);
-    	
-    	
+        titleName = selectedDataSet.getName() + SEPERATOR + selectedOrgunit.getName() + SEPERATOR
+            + format.formatPeriod( selectedPeriod );
 
+        List<Period> periods = new ArrayList<>();
+        periods.add( selectedPeriod );
+
+        approvalValidationRules = approvalValidationRuleService.getApprovalValidationRules( false ).stream()
+            .filter( approvalValidationRule -> approvalValidationRule.getOrganisationUnitLevels()
+                .contains( selectedOrgunit.getLevel() ) )
+            .collect( Collectors.toList() );
+
+        approvalValidations = approvalValidationService.getApprovalValidations( selectedDataSet, selectedOrgunit, false,
+            approvalValidationRules, periods );
+
+        addApprovalValidation( approvalValidationMap, approvalValidations );
+
+        addMissingApprovalValidation( approvalValidationMap, approvalValidationRules );
 
         return SUCCESS;
     }
-    
+
     // -------------------------------------------------------------------------
     // Supportive methods
     // -------------------------------------------------------------------------
-    
-    private void addApprovalValidation( Map<Integer, Boolean> approvalMap, List<ApprovalValidation> approvalValidations)
-	{
-    	approvalValidations.forEach( av -> {    		
-    	   approvalMap.put( av.getApprovalValidationRule().getId(), true );
-	    } );
-	}
-    
-    private void addMissingApprovalValidation( Map<Integer, Boolean> approvalMap, List<ApprovalValidationRule> approvalValidationRules)
-	{
-    	approvalValidationRules.forEach( avr -> {    
-    		if(!approvalMap.containsKey(avr.getId()))
-    		{
-    			approvalMap.put( avr.getId(), false );
-    		}
- 	    } );
-	}
-    
-    
+
+    private void addApprovalValidation( Map<Integer, Boolean> approvalMap,
+        List<ApprovalValidation> approvalValidations )
+    {
+        approvalValidations.forEach( av -> {
+            approvalMap.put( av.getApprovalValidationRule().getId(), true );
+        } );
+    }
+
+    private void addMissingApprovalValidation( Map<Integer, Boolean> approvalMap,
+        List<ApprovalValidationRule> approvalValidationRules )
+    {
+        approvalValidationRules.forEach( avr -> {
+            if ( !approvalMap.containsKey( avr.getId() ) )
+            {
+                approvalMap.put( avr.getId(), false );
+            }
+        } );
+    }
+
 }

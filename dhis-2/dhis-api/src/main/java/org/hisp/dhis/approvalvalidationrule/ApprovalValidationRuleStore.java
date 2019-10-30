@@ -1,5 +1,7 @@
 package org.hisp.dhis.approvalvalidationrule;
 
+import java.util.Collection;
+
 /*
  * Copyright (c) 2004-2019, University of Oslo
  * All rights reserved.
@@ -30,7 +32,13 @@ package org.hisp.dhis.approvalvalidationrule;
 
 import java.util.List;
 
+import org.hisp.dhis.category.CategoryOptionCombo;
 import org.hisp.dhis.common.IdentifiableObjectStore;
+import org.hisp.dhis.dataapproval.DataApproval;
+import org.hisp.dhis.dataapproval.DataApprovalLevel;
+import org.hisp.dhis.dataapproval.DataApprovalWorkflow;
+import org.hisp.dhis.organisationunit.OrganisationUnit;
+import org.hisp.dhis.period.Period;
 
 /**
  * @author Mike Nelushi
@@ -46,5 +54,12 @@ public interface ApprovalValidationRuleStore
      * @return a List of ApprovalValidationRules.
      */
     List<ApprovalValidationRule> getAllApprovalValidationRules();
+    
+    /**
+     * Returns ApprovalValidationRules objects (if any) for given collections of skipApprovalValidation
+     *
+     * @param skipApprovalValidation is skipApprovalValidation property
+     */
+    List<ApprovalValidationRule> getApprovalValidationRules( boolean skipApprovalValidation );
 
 }

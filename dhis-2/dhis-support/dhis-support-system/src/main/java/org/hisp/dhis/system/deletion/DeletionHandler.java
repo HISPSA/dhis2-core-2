@@ -1004,6 +1004,10 @@ public abstract class DeletionHandler
     {
     }
     
+    public void deleteApprovalValidationRule( ApprovalValidationRule approvalValidationRule )
+    {
+    }
+    
     public String allowDeleteApprovalValidationRule( ApprovalValidationRule approvalValidationRule )
     {
         return null;
