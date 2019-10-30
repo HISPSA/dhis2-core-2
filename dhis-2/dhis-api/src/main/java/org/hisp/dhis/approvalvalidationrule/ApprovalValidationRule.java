@@ -56,16 +56,21 @@ public class ApprovalValidationRule
     extends BaseDataDimensionalItemObject implements MetadataObject
 {
     /**
-     * A description of the ValidationRule.
+     * A description of the Apporval ValidationRule.
      */
     private String description;
 
+
     /**
-     * The type of period in which this rule is evaluated.
+     * Skip this Apporval rule when validating.
      */
-    //private PeriodType periodType;
+    private boolean skipApprovalValidation;
 
-
+  
+	/**
+     *  Approval Validation Rule will only be available for organisation units at these levels (or all levels if set is empty)
+     */
+    private Set<Integer> organisationUnitLevels = new HashSet<>(  );
 
   
 
@@ -78,10 +83,11 @@ public class ApprovalValidationRule
 
     }
 
-    public ApprovalValidationRule( String name, String description)
+    public ApprovalValidationRule( String name, String description, boolean skipApprovalValidation)
     {
         this.name = name;
         this.description = description;
+        this.skipApprovalValidation = skipApprovalValidation;
     }
 
     // -------------------------------------------------------------------------
@@ -116,22 +122,33 @@ public class ApprovalValidationRule
     {
         this.description = description;
     }
+    
+    @JsonProperty
+    @JacksonXmlProperty( namespace = DxfNamespaces.DXF_2_0 )
+	public boolean isSkipApprovalValidation() {
+		return skipApprovalValidation;
+	}
+
+	public void setSkipApprovalValidation(boolean skipApprovalValidation) {
+		this.skipApprovalValidation = skipApprovalValidation;
+	}
 
 
-//    @JsonProperty
-//    @JsonSerialize( using = JacksonPeriodTypeSerializer.class )
-//    @JsonDeserialize( using = JacksonPeriodTypeDeserializer.class )
-//    @JacksonXmlProperty( namespace = DxfNamespaces.DXF_2_0 )
-//    @Property( PropertyType.TEXT )
-//    public PeriodType getPeriodType()
-//    {
-//        return periodType;
-//    }
-//
-//    public void setPeriodType( PeriodType periodType )
-//    {
-//        this.periodType = periodType;
-//    }
+
+    @JsonProperty
+    @JsonSerialize( contentAs = IdentifiableObject.class )
+    @JacksonXmlProperty( namespace = DxfNamespaces.DXF_2_0 )
+    @JacksonXmlElementWrapper( localName = "organisationUnitLevels", namespace = DxfNamespaces.DXF_2_0 )
+    public Set<Integer> getOrganisationUnitLevels()
+    {
+        return organisationUnitLevels;
+    }
+
+    public void setOrganisationUnitLevels(
+        Set<Integer> organisationUnitLevels )
+    {
+        this.organisationUnitLevels = organisationUnitLevels;
+    }
 
 
 }

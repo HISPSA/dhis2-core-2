@@ -45,6 +45,7 @@ import org.hisp.dhis.category.Category;
 import org.hisp.dhis.hibernate.HibernateGenericStore;
 import org.hisp.dhis.organisationunit.OrganisationUnit;
 import org.hisp.dhis.period.Period;
+import org.hisp.dhis.period.PeriodType;
 import org.hisp.dhis.user.CurrentUserService;
 import org.hisp.dhis.user.User;
 import org.hisp.dhis.validation.ValidationResult;
@@ -148,6 +149,13 @@ public class HibernateApprovalValidationStore
 
     @Override
     public void save( ApprovalValidation approvalValidation )
+    {
+    	approvalValidation.setCreated( new Date() );
+        super.save( approvalValidation );
+    }
+    
+    @Override
+    public void update( ApprovalValidation approvalValidation )
     {
     	approvalValidation.setCreated( new Date() );
         super.save( approvalValidation );

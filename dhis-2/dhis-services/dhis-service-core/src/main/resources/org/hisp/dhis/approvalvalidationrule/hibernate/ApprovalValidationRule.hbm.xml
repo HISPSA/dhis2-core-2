@@ -19,11 +19,17 @@
 
     <property name="description" type="text" />
 
-    <!-- <many-to-one name="periodType" class="org.hisp.dhis.period.PeriodType" column="periodtypeid"
-      foreign-key="fk_validationrule_periodtypeid" not-null="true" /> -->
 
     <!-- Access properties -->
     <many-to-one name="user" class="org.hisp.dhis.user.User" column="userid" foreign-key="fk_validationrule_userid" />
+    
+    <property name="skipApprovalValidation" /> 
+    
+    <set name="organisationUnitLevels" table="approvalvalidationruleorganisationunitlevels">
+      <cache usage="read-write" />
+      <key column="approvalvalidationruleid" foreign-key="fk_organisationunitlevel_approvalvalidationruleid" />
+      <element column="organisationunitlevel" type="int" />
+    </set>
 
 
   </class>

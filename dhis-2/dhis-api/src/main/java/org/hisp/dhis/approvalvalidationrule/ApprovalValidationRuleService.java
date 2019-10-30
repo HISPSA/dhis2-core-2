@@ -30,6 +30,7 @@ package org.hisp.dhis.approvalvalidationrule;
 
 import org.hisp.dhis.dataelement.DataElement;
 import org.hisp.dhis.dataset.DataSet;
+import org.hisp.dhis.organisationunit.OrganisationUnit;
 
 import java.util.Collection;
 import java.util.List;
@@ -97,6 +98,13 @@ public interface ApprovalValidationRuleService
      * @param name the name of the approval validation rule.
      */
     ApprovalValidationRule getApprovalValidationRuleByName( String name );
+    
+    /**
+     * Returns ApprovalValidationRules objects (if any) for given collections of skipApprovalValidation
+     *
+     * @param skipApprovalValidation is skipApprovalValidation property
+     */
+    List<ApprovalValidationRule> getApprovalValidationRules( boolean skipApprovalValidation );
 
 
 }

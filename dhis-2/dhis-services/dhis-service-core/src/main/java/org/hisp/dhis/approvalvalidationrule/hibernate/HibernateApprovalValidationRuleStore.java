@@ -34,7 +34,9 @@ import org.hisp.dhis.approvalvalidationrule.ApprovalValidationRule;
 import org.hisp.dhis.approvalvalidationrule.ApprovalValidationRuleStore;
 import org.hisp.dhis.common.IdentifiableObjectUtils;
 import org.hisp.dhis.common.hibernate.HibernateIdentifiableObjectStore;
+import org.hisp.dhis.dataapproval.DataApproval;
 import org.hisp.dhis.dataelement.DataElement;
+import org.hisp.dhis.organisationunit.OrganisationUnit;
 import org.hisp.dhis.period.PeriodService;
 import org.hisp.dhis.period.PeriodType;
 import org.hisp.dhis.validation.ValidationRule;
@@ -56,12 +58,12 @@ public class HibernateApprovalValidationRuleStore
     // Dependency
     // -------------------------------------------------------------------------
 
-//    private PeriodService periodService;
-//
-//    public void setPeriodService( PeriodService periodService )
-//    {
-//        this.periodService = periodService;
-//    }
+    // private PeriodService periodService;
+    //
+    // public void setPeriodService( PeriodService periodService )
+    // {
+    // this.periodService = periodService;
+    // }
 
     // -------------------------------------------------------------------------
     // Implementation
@@ -70,9 +72,10 @@ public class HibernateApprovalValidationRuleStore
     @Override
     public void save( ApprovalValidationRule approvalValidationRule )
     {
-//        PeriodType periodType = periodService.reloadPeriodType( approvalValidationRule.getPeriodType() );
-//
-//        approvalValidationRule.setPeriodType( periodType );
+        // PeriodType periodType = periodService.reloadPeriodType(
+        // approvalValidationRule.getPeriodType() );
+        //
+        // approvalValidationRule.setPeriodType( periodType );
 
         super.save( approvalValidationRule );
     }
@@ -80,9 +83,10 @@ public class HibernateApprovalValidationRuleStore
     @Override
     public void update( ApprovalValidationRule approvalValidationRule )
     {
-//        PeriodType periodType = periodService.reloadPeriodType( approvalValidationRule.getPeriodType() );
-//
-//        approvalValidationRule.setPeriodType( periodType );
+        // PeriodType periodType = periodService.reloadPeriodType(
+        // approvalValidationRule.getPeriodType() );
+        //
+        // approvalValidationRule.setPeriodType( periodType );
 
         super.save( approvalValidationRule );
     }
@@ -92,7 +96,16 @@ public class HibernateApprovalValidationRuleStore
     public List<ApprovalValidationRule> getAllApprovalValidationRules()
     {
         Criteria criteria = getSharingCriteria();
-        //criteria.add( Restrictions.eq( "skipFormValidation", false ) );
+
+        return criteria.list();
+    }
+
+    @Override
+    @SuppressWarnings( "unchecked" )
+    public List<ApprovalValidationRule> getApprovalValidationRules( boolean skipApprovalValidation )
+    {
+        Criteria criteria = getSharingCriteria();
+        criteria.add( Restrictions.eq( "skipApprovalValidation", skipApprovalValidation ) );
 
         return criteria.list();
     }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.hisp.dhis.approvalvalidationrule.ApprovalValidationRule;
 import org.hisp.dhis.approvalvalidationrule.ApprovalValidationRuleService;
 import org.hisp.dhis.approvalvalidationrule.ApprovalValidationRuleStore;
+import org.hisp.dhis.organisationunit.OrganisationUnit;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -20,10 +21,10 @@ public class DefaultApprovalValidationRuleService
 
     private ApprovalValidationRuleStore approvalValidationRuleStore;
 
-    public void setApprovalValidationRuleStore(ApprovalValidationRuleStore approvalValidationRuleStore) {
-		this.approvalValidationRuleStore = approvalValidationRuleStore;
-	}
-
+    public void setApprovalValidationRuleStore( ApprovalValidationRuleStore approvalValidationRuleStore )
+    {
+        this.approvalValidationRuleStore = approvalValidationRuleStore;
+    }
 
     // -------------------------------------------------------------------------
     // ApprovalValidationRule CRUD operations
@@ -32,7 +33,7 @@ public class DefaultApprovalValidationRuleService
     @Override
     public int saveApprovalValidationRule( ApprovalValidationRule approvalValidationRule )
     {
-    	approvalValidationRuleStore.save( approvalValidationRule );
+        approvalValidationRuleStore.save( approvalValidationRule );
 
         return approvalValidationRule.getId();
     }
@@ -40,13 +41,13 @@ public class DefaultApprovalValidationRuleService
     @Override
     public void updateApprovalValidationRule( ApprovalValidationRule approvalValidationRule )
     {
-    	approvalValidationRuleStore.update( approvalValidationRule );
+        approvalValidationRuleStore.update( approvalValidationRule );
     }
 
     @Override
     public void deleteApprovalValidationRule( ApprovalValidationRule approvalValidationRule )
     {
-    	approvalValidationRuleStore.delete( approvalValidationRule );
+        approvalValidationRuleStore.delete( approvalValidationRule );
     }
 
     @Override
@@ -60,13 +61,12 @@ public class DefaultApprovalValidationRuleService
     {
         return approvalValidationRuleStore.getByUid( uid );
     }
-    
+
     @Override
     public List<ApprovalValidationRule> getAllApprovalValidationRules()
     {
         return approvalValidationRuleStore.getAllApprovalValidationRules();
     }
-
 
     @Override
     public ApprovalValidationRule getApprovalValidationRuleByName( String name )
@@ -74,7 +74,10 @@ public class DefaultApprovalValidationRuleService
         return approvalValidationRuleStore.getByName( name );
     }
 
-    
+    @Override
+    public List<ApprovalValidationRule> getApprovalValidationRules( boolean skipApprovalValidation )
+    {
+        return approvalValidationRuleStore.getApprovalValidationRules( skipApprovalValidation );
+    }
 
-    
 }
