@@ -43,5 +43,5 @@ public interface CacheProvider
      * @return A cache builder instance for the specified value type. Returns a
      *         {@link CacheBuilder}
      */
-    public <V> CacheBuilder<V> newCacheBuilder( Class<V> valueType );
+    <V> CacheBuilder<V> newCacheBuilder(Class<V> valueType);
 }

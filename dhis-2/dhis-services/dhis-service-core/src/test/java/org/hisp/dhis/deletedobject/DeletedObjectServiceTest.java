@@ -1,7 +1,7 @@
 package org.hisp.dhis.deletedobject;
 
 /*
- * Copyright (c) 2004-2018, University of Oslo
+ * Copyright (c) 2004-2019, University of Oslo
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,6 +28,7 @@ package org.hisp.dhis.deletedobject;
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import static org.hamcrest.CoreMatchers.*;
 import org.hisp.dhis.DhisSpringTest;
 import org.hisp.dhis.common.IdentifiableObjectManager;
 import org.hisp.dhis.dataelement.DataElement;
@@ -37,6 +38,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 /**
  * @author Morten Olav Hansen <mortenoh@gmail.com>
@@ -50,22 +55,61 @@ public class DeletedObjectServiceTest
     @Autowired
     private IdentifiableObjectManager manager;
 
+    private DeletedObject elementA = new DeletedObject( createDataElement( 'A' ) );
+
+    private DeletedObject elementB = new DeletedObject( createDataElement( 'B' ) );
+
+    private DeletedObject elementC = new DeletedObject( createDataElement( 'C' ) );
+
+    private DeletedObject elementD = new DeletedObject( createDataElement( 'D' ) );
+
+    private DeletedObject elementE = new DeletedObject( createDataElement( 'E' ) );
+
     @Test
     public void testAddDeletedObject()
     {
-        deletedObjectService.addDeletedObject( new DeletedObject( createDataElement( 'A' ) ) );
-        deletedObjectService.addDeletedObject( new DeletedObject( createDataElement( 'B' ) ) );
-        deletedObjectService.addDeletedObject( new DeletedObject( createDataElement( 'C' ) ) );
+        deletedObjectService.addDeletedObject( elementA );
+        deletedObjectService.addDeletedObject( elementB );
+        deletedObjectService.addDeletedObject( elementC );
 
         assertEquals( 3, deletedObjectService.countDeletedObjects() );
     }
 
     @Test
+    public void testGetDeletedObject()
+    {
+        DeletedObjectQuery deletedObjectQuery = new DeletedObjectQuery();
+        deletedObjectQuery.setTotal( 5 );
+        deletedObjectQuery.setPageSize( 2 );
+
+        deletedObjectService.addDeletedObject( elementA );
+        deletedObjectService.addDeletedObject( elementB );
+        deletedObjectService.addDeletedObject( elementC );
+        deletedObjectService.addDeletedObject( elementD );
+        deletedObjectService.addDeletedObject( elementE );
+
+        deletedObjectQuery.setPage( 1 );
+        List<DeletedObject> firstPageDeletedObjects = deletedObjectService.getDeletedObjects( deletedObjectQuery );
+        deletedObjectQuery.setPage( 2 );
+        List<DeletedObject> secondPageDeletedObjects = deletedObjectService.getDeletedObjects( deletedObjectQuery );
+        deletedObjectQuery.setPage( 3 );
+        List<DeletedObject> thirdPageDeletedObjects = deletedObjectService.getDeletedObjects( deletedObjectQuery );
+
+        assertEquals( 5, deletedObjectService.countDeletedObjects() );
+        assertEquals( 2, firstPageDeletedObjects.size() );
+        assertEquals( 2, secondPageDeletedObjects.size() );
+        assertEquals( 1, thirdPageDeletedObjects.size() );
+        assertThat( firstPageDeletedObjects, hasItems( elementA, elementB ) );
+        assertThat( secondPageDeletedObjects, hasItems( elementC, elementD ) );
+        assertThat( thirdPageDeletedObjects, hasItems( elementE ) );
+    }
+
+    @Test
     public void testSearchForKlass()
     {
-        deletedObjectService.addDeletedObject( new DeletedObject( createDataElement( 'A' ) ) );
-        deletedObjectService.addDeletedObject( new DeletedObject( createDataElement( 'B' ) ) );
-        deletedObjectService.addDeletedObject( new DeletedObject( createDataElement( 'C' ) ) );
+        deletedObjectService.addDeletedObject( elementA );
+        deletedObjectService.addDeletedObject( elementB );
+        deletedObjectService.addDeletedObject( elementC );
 
         deletedObjectService.addDeletedObject( new DeletedObject( createOrganisationUnit( 'A' ) ) );
         deletedObjectService.addDeletedObject( new DeletedObject( createOrganisationUnit( 'B' ) ) );
