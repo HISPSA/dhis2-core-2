@@ -383,6 +383,7 @@ dhis2.appr.generateDataReport = function()
     	$( "#content" ).show( "fast" );
     	setTableStyles();
     	dhis2.appr.setApprovalState();
+    	dhis2.appr.getapprovalValidation();
     } );
 };
 
@@ -482,6 +483,7 @@ dhis2.appr.setAttributeOptionComboApprovalState = function()
 dhis2.appr.resetApprovalOptions = function()
 {
 	$( ".approveButton" ).hide();
+	$( "#approvalvalidationButton" ).hide();
 	$( "#approvalNotification" ).html( i18n_done + ". " + i18n_please_make_selection );
 	dhis2.appr.clearItemsDialog();
 }
@@ -507,6 +509,7 @@ dhis2.appr.setRegularApprovalState = function( ui )
 		dhis2.appr.permissions = json;
 		
 	    $( ".approveButton" ).hide();
+	    $( "#approvalvalidationButton" ).hide();
 
 	    switch ( json.state ) {
 	        case "UNAPPROVABLE":
@@ -677,10 +680,18 @@ dhis2.appr.saveApprovalValidationRules = function() {
 	        {
 	            window.alert( i18n_operation_not_available_offline );	            
 	        }
-	        /*else
+	        else
 	        {
-	        	return $.Deferred().resolve(true);
-	        }*/	        
+	        	if (Object.values(approvalValidationMap).indexOf(false) > -1) 
+	        	{
+				    $( "#approveButton" ).attr('disabled','disabled');
+				}
+	        	else
+        		{
+	        		$( "#approveButton" ).removeAttr('disabled');
+        		}
+	        	
+	        }        
 	    } );
 	//return $.Deferred().resolve(false);
 }
@@ -746,7 +757,7 @@ dhis2.appr.addEventListeners = function()
 		                
 		                approvalValidationMap[id] = true;
 		            }
-		            console.log(approvalValidationMap);
+		            //console.log(approvalValidationMap);
 		        } );
 		    } );
 }
@@ -755,7 +766,7 @@ dhis2.appr.addEventListeners = function()
  */
 dhis2.appr.approvalValidation = function()
 {	
-	var ui = dhis2.appr.getUiState();
+	/*var ui = dhis2.appr.getUiState();
 	var dataSetSelected = dhis2.appr.dataSets[ui.ds];
 	//var dataSetSelectedName = dataSetSelected.displayName;
 
@@ -778,8 +789,44 @@ dhis2.appr.approvalValidation = function()
 	        	dhis2.appr.addEventListeners();
 	        	dhis2.appr.displayHistoryDialog( titleName );
 	        }
+	    } );*/
+	dhis2.appr.addEventListeners();
+	dhis2.appr.displayHistoryDialog( titleName );
+};
+
+/**
+ * Get Approval Validation List.
+ */
+dhis2.appr.getapprovalValidation = function()
+{	
+	var ui = dhis2.appr.getUiState();
+	var dataSetSelected = dhis2.appr.dataSets[ui.ds];
+	//var dataSetSelectedName = dataSetSelected.displayName;
+
+	var params = {
+			ds : ui.ds,
+			pe : ui.pe,
+	        ou : ui.ou
+	    };
+	    
+	    $( '#approvalValidationDiv' ).load( 'viewApprovalValidationRule.action', params, 
+	    function( response, status, xhr )
+	    {
+
+	        if ( status == 'error' )
+	        {
+	            window.alert( i18n_operation_not_available_offline );
+	        }else 
+	        {
+	        	if (Object.values(approvalValidationMap).indexOf(false) > -1) {
+				    $( "#approveButton" ).attr('disabled','disabled');
+				}	        
+	        }
+	        
 	    } );
 };
+
+
 
 /**
  * Unapprove data.

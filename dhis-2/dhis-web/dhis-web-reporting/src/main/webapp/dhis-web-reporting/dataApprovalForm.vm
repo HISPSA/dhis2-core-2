@@ -55,6 +55,7 @@ var i18n_approvalvalidation = '$encoder.jsEscape( $i18n.getString( "approvalvali
 var i18n_cancel = "$i18n.getString( "cancel" )";
 var i18n_save = "$i18n.getString( "save" )";
 
+
 </script>
 
 <style type="text/css">
