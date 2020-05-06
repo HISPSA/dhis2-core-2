@@ -274,7 +274,7 @@ public class LoadFormAction
         if ( formType.isCustom() && dataSet.hasDataEntryForm() )
         {
             dataEntryForm = dataSet.getDataEntryForm();
-            customDataEntryFormCode = dataEntryFormService.prepareDataEntryF    ormForEntry( dataEntryForm, dataSet, i18n );
+            customDataEntryFormCode = dataEntryFormService.prepareDataEntryFormForEntry( dataEntryForm, dataSet, i18n );
             return formType.toString();
         }
 
