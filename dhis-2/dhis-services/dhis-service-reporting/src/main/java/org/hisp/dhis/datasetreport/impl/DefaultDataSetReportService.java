@@ -173,6 +173,17 @@ public class DefaultDataSetReportService
 
         List<CategoryCombo> categoryCos = new ArrayList<>( categoryService.getAllCategoryCombos() );
         List<DataSet> dataSets = new ArrayList<>( dataSetService.getAllDataSets() );
+        
+        
+        List<DataElement> dataElementsAll = new ArrayList<>();
+        
+        for ( DataSet dataSt : dataSets ) 
+        {
+            dataElementsAll.addAll( dataSt.getDataElements() );
+        }
+        
+        Map<String, Object> dataSetValueMap = dataSetReportStore.getAggregatedGrandTotals( dataElementsAll,
+            period, unit, dimensions );
 
         // ---------------------------------------------------------------------
         // Create a grid for each section
@@ -277,13 +288,6 @@ public class DefaultDataSetReportService
                         }
                     }
 
-                    /*Object totalValue = null;
-                    if ( categoryCombo.doTotal() && !selectedUnitOnly ) // Total
-                    {
-                        totalValue = totalMap.get( String.valueOf( dataElement.getUid() ) );
-
-                        grid.addValue( new GridValue( totalValue ) );
-                    }*/
                     
                     if ( categoryCombo.doTotal() && !selectedUnitOnly ) // Total
                     {
@@ -305,29 +309,22 @@ public class DefaultDataSetReportService
                         
                         Map<String, Object> dataMap = new HashMap<>();
 
-                        for ( DataSet dataSt : dataSets )
+                        if ( !dataSetValueMap.isEmpty() )
                         {
-
-                            Map<String, Object> dataSetValueMap = dataSetReportStore.getAggregatedValues( dataSt,
-                                period, unit, dimensions );
-                            if ( !dataSetValueMap.isEmpty() )
+                            for ( CategoryOptionCombo optionCombo : optionCombosMonthTotal ) // Values
                             {
-                                for ( CategoryOptionCombo optionCombo : optionCombosMonthTotal ) // Values
-                                {
-                                    valueDs = dataSetValueMap
-                                        .get( dataElement.getUid() + SEPARATOR + optionCombo.getUid() );                                   
-                                    
-                                    int val = valueDs != null ? (int) Double.parseDouble( valueDs.toString() ) : 0;
-                                    
-                                    if(!dataMap.containsKey(dataElement.getUid() + SEPARATOR + optionCombo.getUid()+ SEPARATOR + val)){                                        
+                                valueDs = dataSetValueMap
+                                    .get( dataElement.getUid() + SEPARATOR + optionCombo.getUid() );                                   
+                                
+                                int val = valueDs != null ? (int) Double.parseDouble( valueDs.toString() ) : 0;
+                                
+                                if(!dataMap.containsKey(dataElement.getUid() + SEPARATOR + optionCombo.getUid()+ SEPARATOR + val)){                                        
 
-                                        total += val;
-                                        
-                                        dataMap.put( dataElement.getUid() + SEPARATOR + optionCombo.getUid()+ SEPARATOR + val, valueDs );
-                                    }                                    
-                                }
+                                    total += val;
+                                    
+                                    dataMap.put( dataElement.getUid() + SEPARATOR + optionCombo.getUid()+ SEPARATOR + val, valueDs );
+                                }                                    
                             }
-
                         }
 
                         monthTotalValue = total;
@@ -340,9 +337,7 @@ public class DefaultDataSetReportService
 
                         Object value = null;
                         int monthTotalValueF = monthTotalValue != null ? (int) monthTotalValue : 0;
-                        //int totalValueF = totalValue != null ? (int) Double.parseDouble( totalValue.toString() ) : 0;                      
-                        
-                        //value = monthTotalValueF + totalValueF;
+
                         value = monthTotalValueF + totalOptionCoValue;
 
                         grid.addValue( new GridValue( value ) );
