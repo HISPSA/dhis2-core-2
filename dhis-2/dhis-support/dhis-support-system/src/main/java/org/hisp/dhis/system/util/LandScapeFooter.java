@@ -51,19 +51,19 @@ class LandScapeFooter extends PdfPageEventHelper {
         try {
         	table.setWidths(new int[] { 84, 84, 2 });
         	table.setTotalWidth(1620);
-            table.setLockedWidth(true);
-            table.getDefaultCell().setFixedHeight(20);
-            table.getDefaultCell().setBorder(Rectangle.BOTTOM);
-            table.addCell(header);
-            table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_RIGHT);
-            table.addCell(String.format("Page %d of", writer.getPageNumber()));
-            PdfPCell cell = new PdfPCell(Image.getInstance(total));
-            cell.setBorder(Rectangle.BOTTOM);
-            table.addCell(cell);
-            table.writeSelectedRows(0, -1, 34, 50, writer.getDirectContent());
-        } catch (DocumentException de) {
-            throw new ExceptionConverter(de);
-        }
+                table.setLockedWidth(true);
+                table.getDefaultCell().setFixedHeight(20);
+                table.getDefaultCell().setBorder(Rectangle.BOTTOM);
+                table.addCell(header);
+                table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_RIGHT);
+                table.addCell(String.format("Page %d of", writer.getPageNumber()));
+                PdfPCell cell = new PdfPCell(Image.getInstance(total));
+                cell.setBorder(Rectangle.BOTTOM);
+                table.addCell(cell);
+                table.writeSelectedRows(0, -1, 34, 50, writer.getDirectContent());
+            } catch (DocumentException de) {
+                throw new ExceptionConverter(de);
+            }
     }
 
     /**

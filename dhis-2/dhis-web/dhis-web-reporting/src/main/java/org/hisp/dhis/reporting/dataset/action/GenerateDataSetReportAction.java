@@ -292,6 +292,8 @@ public class GenerateDataSetReportAction
                 
                 grids = dataSetReportService.getDefaultDataSetReport( selectedDataSet, selectedPeriod, selectedOrgunit, dimension, selectedUnitOnly, format, i18n );
             }
+            
+            
         }
         else if ( formType.isSection() )
         {
