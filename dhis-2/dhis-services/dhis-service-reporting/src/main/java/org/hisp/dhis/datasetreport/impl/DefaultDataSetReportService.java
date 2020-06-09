@@ -194,7 +194,13 @@ public class DefaultDataSetReportService
             for ( CategoryCombo categoryCombo : section.getCategoryCombos() )
             {
 
-                Grid grid = new ListGrid().setTitle( section.getName() + SPACE + categoryCombo.getName() )
+                String sectionName = "";
+                if(section.getName().equals( "DaysInMonth" )) {
+                    sectionName = dataSet.getName();
+                }else {
+                    sectionName = section.getName();
+                }
+                Grid grid = new ListGrid().setTitle( sectionName + SPACE + categoryCombo.getName() )
                     .setSubtitle( unit.getName() + SPACE + format.formatPeriod( period ) );
 
                 // -----------------------------------------------------------------
