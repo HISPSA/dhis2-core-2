@@ -282,7 +282,7 @@ public class GenerateDataSetReportAction
         
         if ( formType.isCustom() )
         {
-            if ( type != null )
+            /*if ( type != null )
             {
                 grids = dataSetReportService.getCustomDataSetReportAsGrid( selectedDataSet, selectedPeriod, selectedOrgunit, dimension, selectedUnitOnly, format );
             }
@@ -291,7 +291,9 @@ public class GenerateDataSetReportAction
                 //customDataEntryFormCode = dataSetReportService.getCustomDataSetReport( selectedDataSet, selectedPeriod, selectedOrgunit, dimension, selectedUnitOnly, format );
                 
                 grids = dataSetReportService.getDefaultDataSetReport( selectedDataSet, selectedPeriod, selectedOrgunit, dimension, selectedUnitOnly, format, i18n );
-            }
+            }*/
+            
+            grids = dataSetReportService.getDefaultDataSetReport( selectedDataSet, selectedPeriod, selectedOrgunit, dimension, selectedUnitOnly, format, i18n );
             
             
         }
