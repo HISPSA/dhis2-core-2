@@ -73,6 +73,7 @@ public class HibernateUserStore
         return count != null ? count.intValue() : 0;
     }
 
+    @Transactional
     private Query getUserQuery( UserQueryParams params, boolean count )
     {
         SqlHelper hlp = new SqlHelper();
