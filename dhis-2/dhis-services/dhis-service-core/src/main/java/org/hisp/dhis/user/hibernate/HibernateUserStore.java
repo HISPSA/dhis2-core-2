@@ -42,12 +42,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import javax.transaction.Transactional;
+
 
 /**
  * @author Nguyen Hong Duc
  */
-@Transactional
 public class HibernateUserStore
     extends HibernateIdentifiableObjectStore<User>
     implements UserStore
@@ -73,7 +72,6 @@ public class HibernateUserStore
         return count != null ? count.intValue() : 0;
     }
 
-    @Transactional
     private Query getUserQuery( UserQueryParams params, boolean count )
     {
         SqlHelper hlp = new SqlHelper();

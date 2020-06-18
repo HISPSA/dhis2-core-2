@@ -68,10 +68,17 @@ public class DefaultUserService
     // -------------------------------------------------------------------------
 
     private UserStore userStore;
+    private UserStoreAlert userStoreAlert;
+
 
     public void setUserStore( UserStore userStore )
     {
         this.userStore = userStore;
+    }
+    
+    public void setUserStoreAlert( UserStoreAlert userStoreAlert )
+    {
+        this.userStoreAlert = userStoreAlert;
     }
 
     private UserGroupService userGroupService;
@@ -642,7 +649,7 @@ public class DefaultUserService
             .setDisabled( false )
             .setPasswordLastUpdated( daysPassed );
 
-        return userStore.getExpiringUsers( userQueryParams );
+        return userStoreAlert.getExpiringUsers( userQueryParams );
     }
 
     public void set2FA( User user, Boolean twoFa )
