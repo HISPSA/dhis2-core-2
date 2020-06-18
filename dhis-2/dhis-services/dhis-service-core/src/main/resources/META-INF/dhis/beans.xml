@@ -326,6 +326,12 @@
     <property name="clazz" value="org.hisp.dhis.user.User" />
     <property name="cacheable" value="true" />
   </bean>
+  
+  <bean id="org.hisp.dhis.user.UserStoreAlert" class="org.hisp.dhis.user.hibernate.HibernateUserStoreAlert">
+    <property name="sessionFactory" ref="sessionFactory" />
+    <property name="clazz" value="org.hisp.dhis.user.User" />
+    <property name="cacheable" value="true" />
+  </bean>
 
   <bean id="org.hisp.dhis.user.CurrentUserStore" class="org.hisp.dhis.user.hibernate.HibernateCurrentUserStore" />
 
@@ -1012,6 +1018,7 @@
 
   <bean id="org.hisp.dhis.user.UserService" class="org.hisp.dhis.user.DefaultUserService">
     <property name="userStore" ref="org.hisp.dhis.user.UserStore" />
+    <property name="userStoreAlert" ref="org.hisp.dhis.user.UserStoreAlert" />
     <property name="userGroupService" ref="org.hisp.dhis.user.UserGroupService" />
     <property name="userCredentialsStore" ref="org.hisp.dhis.user.UserCredentialsStore" />
     <property name="userAuthorityGroupStore" ref="org.hisp.dhis.user.UserAuthorityGroupStore" />
