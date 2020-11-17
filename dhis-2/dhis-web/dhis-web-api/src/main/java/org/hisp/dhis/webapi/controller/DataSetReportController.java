@@ -145,13 +145,15 @@ public class DataSetReportController
         GridUtils.toXls( grids, response.getOutputStream() );
     }
 
+
     @RequestMapping( value = RESOURCE_PATH + ".pdf", method = RequestMethod.GET )
     public void getDataSetReportAsPdf( HttpServletResponse response,
         @RequestParam String ds,
         @RequestParam String pe,
         @RequestParam String ou,
         @RequestParam( required = false ) Set<String> filter,
-        @RequestParam( required = false ) boolean selectedUnitOnly ) throws Exception
+        @RequestParam( required = false ) boolean selectedUnitOnly,
+        @RequestParam( required = false ) int noOfSignatures) throws Exception
     {
         OrganisationUnit orgUnit = getAndValidateOrgUnit( ou );
         DataSet dataSet = getAndValidateDataSet( ds );
@@ -159,7 +161,9 @@ public class DataSetReportController
 
         contextUtils.configureResponse( response, ContextUtils.CONTENT_TYPE_PDF, CacheStrategy.RESPECT_SYSTEM_SETTING );
         List<Grid> grids = dataSetReportService.getDataSetReportAsGrid( dataSet, period, orgUnit, filter, selectedUnitOnly );
-        GridUtils.toPdf( grids, response.getOutputStream() );
+        //GridUtils.toPdf( grids, response.getOutputStream() );
+        GridUtils.toPdfCustom( grids, response.getOutputStream(), noOfSignatures );
+        
     }
 
     // -------------------------------------------------------------------------
