@@ -85,6 +85,8 @@ public class DefaultProgramRuleEntityMapperService implements ProgramRuleEntityM
         .put( ProgramRuleActionType.DISPLAYTEXT, this::getLocationBasedDisplayRuleAction )
         .put( ProgramRuleActionType.HIDEFIELD,
             pra -> RuleActionHideField.create( pra.getContent(), getAssignedParameter( pra ) ) )
+        .put( ProgramRuleActionType.HIDEFIELDNODELETE,
+                pra -> RuleActionHideField.create( pra.getContent(), getAssignedParameter( pra ) ) )
         .put( ProgramRuleActionType.HIDEPROGRAMSTAGE,
             pra -> RuleActionHideProgramStage.create( pra.getProgramStage().getUid() ) )
         .put( ProgramRuleActionType.HIDESECTION,
