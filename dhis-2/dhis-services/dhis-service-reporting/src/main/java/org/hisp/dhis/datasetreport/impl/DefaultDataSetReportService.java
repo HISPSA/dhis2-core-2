@@ -151,7 +151,8 @@ public class DefaultDataSetReportService
 
         if ( formType.isCustom() )
         {
-            grids = getCustomDataSetReportAsGrid( dataSet, period, orgUnit, filters, selectedUnitOnly );
+            //grids = getCustomDataSetReportAsGrid( dataSet, period, orgUnit, filters, selectedUnitOnly );
+            grids = getSectionDataSetReport( dataSet, period, orgUnit, filters, selectedUnitOnly );
         }
         else if ( formType.isSection() )
         {
@@ -186,7 +187,8 @@ public class DefaultDataSetReportService
         }
     }
 
-    private List<Grid> getSectionDataSetReport( DataSet dataSet, Period period, OrganisationUnit unit, Set<String> filters, boolean selectedUnitOnly )
+    @Override
+    public List<Grid> getSectionDataSetReport( DataSet dataSet, Period period, OrganisationUnit unit, Set<String> filters, boolean selectedUnitOnly )
     {
         I18nFormat format = i18nManager.getI18nFormat();
         I18n i18n = i18nManager.getI18n();

@@ -78,7 +78,7 @@ public class DataSetReportController
     @Autowired
     IdentifiableObjectManager idObjectManager;
 
-    @RequestMapping( value = RESOURCE_PATH
+    /*@RequestMapping( value = RESOURCE_PATH
         + "/custom", method = RequestMethod.GET, produces = "text/html;charset=UTF-8" )
     public @ResponseBody String getCustomDataSetReport( HttpServletResponse response,
         @RequestParam String ds,
@@ -102,6 +102,26 @@ public class DataSetReportController
             CacheStrategy.RESPECT_SYSTEM_SETTING );
 
         return dataSetReportService.getCustomDataSetReport( dataSet, period, orgUnit, filter, selectedUnitOnly );
+    }*/
+    
+    @RequestMapping( value = RESOURCE_PATH+ "/custom", method = RequestMethod.GET, produces = "application/json" )
+    public @ResponseBody List<Grid> getSectionDataSetReportAsJson( HttpServletResponse response,
+        @RequestParam String ds,
+        @RequestParam String pe,
+        @RequestParam String ou,
+        @RequestParam( required = false ) Set<String> filter,
+        @RequestParam( required = false ) boolean selectedUnitOnly,
+        @RequestParam( required = false ) int noOfSignatures )
+        throws Exception
+    {
+        OrganisationUnit orgUnit = getAndValidateOrgUnit( ou );
+        DataSet dataSet = getAndValidateDataSet( ds );
+        Period period = getAndValidatePeriod( pe );
+        //filter = ObjectUtils.firstNonNull( filter, dimension );
+
+        contextUtils.configureResponse( response, ContextUtils.CONTENT_TYPE_JSON,
+            CacheStrategy.RESPECT_SYSTEM_SETTING );
+        return dataSetReportService.getSectionDataSetReport( dataSet, period, orgUnit, filter, selectedUnitOnly );
     }
 
     @RequestMapping( value = RESOURCE_PATH, method = RequestMethod.GET, produces = "application/json" )
@@ -113,7 +133,8 @@ public class DataSetReportController
         @RequestParam( required = false ) Set<String> dimension, // TODO remove,
                                                                  // deprecated
                                                                  // in 2.31
-        @RequestParam( required = false ) boolean selectedUnitOnly )
+        @RequestParam( required = false ) boolean selectedUnitOnly,
+    	@RequestParam( required = false ) int noOfSignatures )
         throws Exception
     {
         OrganisationUnit orgUnit = getAndValidateOrgUnit( ou );
@@ -132,7 +153,8 @@ public class DataSetReportController
         @RequestParam String pe,
         @RequestParam String ou,
         @RequestParam( required = false ) Set<String> filter,
-        @RequestParam( required = false ) boolean selectedUnitOnly )
+        @RequestParam( required = false ) boolean selectedUnitOnly,
+        @RequestParam( required = false ) int noOfSignatures )
         throws Exception
     {
         OrganisationUnit orgUnit = getAndValidateOrgUnit( ou );

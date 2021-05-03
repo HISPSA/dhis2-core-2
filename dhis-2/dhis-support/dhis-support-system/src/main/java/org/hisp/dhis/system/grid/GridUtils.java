@@ -335,6 +335,8 @@ public class GridUtils
 				PdfPTable table = new PdfPTable( grid.getVisibleWidth() );
 
 				int headerwidths[] = getHeaderWidth(grid.getVisibleWidth());
+				table.setSpacingBefore(15f);
+				table.setSpacingAfter(15f);
 				table.setHeaderRows(4);
 				table.setKeepTogether( false );
 				table.setWidths(headerwidths);
@@ -367,11 +369,24 @@ public class GridUtils
 					if (i % 2 == 1) {
 						table.getDefaultCell().setGrayFill(0.9f);
 					}
+
+					int j = 1; 
 				    for ( Object col : row )
 				    {
-				        String text = col != null ? String.valueOf( col ) : EMPTY;
-				        table.addCell( text );
+				    	String text = col != null ? String.valueOf( col ) : EMPTY;
+				    	
+				    	if (j == 1) {
+							table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
+							table.addCell( text );
+				    		
+				    	}else {
+				    		table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
+				    		table.addCell( text );
+				    	}				        
+				        
+				        j++;
 				    }
+					
 				    if (i % 2 == 1) {
 				    	table.getDefaultCell().setGrayFill(1);
 					}
