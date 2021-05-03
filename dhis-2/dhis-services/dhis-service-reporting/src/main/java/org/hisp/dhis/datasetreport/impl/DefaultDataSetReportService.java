@@ -209,7 +209,7 @@ public class DefaultDataSetReportService
         
         List<DataElement> dataElementsAll = new ArrayList<>();
         
-        String[] values = {"Source","Database","Source Post","Database Post","Files Assessed","Files Correlated"};
+        String[] values = {"Source","Database","Source Post","Database Post","Files Audited","Files Correlated"};
         boolean contains = false;
         
         for ( DataSet dataSt : dataSets ) 
@@ -365,8 +365,7 @@ public class DefaultDataSetReportService
                             }
 
                             //totalOptionCoValue += val;
-                            value = val;
-                            grid.addValue( new GridValue( value, attributes ) );
+                            grid.addValue( new GridValue( val, attributes ) );
                     	}                    	
                         
                     }
