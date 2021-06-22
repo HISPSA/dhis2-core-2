@@ -5,7 +5,11 @@
   <parent>
     <groupId>org.hisp.dhis</groupId>
     <artifactId>dhis</artifactId>
+<<<<<<< HEAD
     <version>2.35.4</version>
+=======
+    <version>2.35.3</version>
+>>>>>>> fed105e056835c3a219f6c4923d7ee224340425b
   </parent>
 
   <artifactId>dhis-services</artifactId>
