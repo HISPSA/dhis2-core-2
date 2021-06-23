@@ -31,6 +31,7 @@ import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.hisp.dhis.common.hibernate.HibernateIdentifiableObjectStore;
+import org.hisp.dhis.deletedobject.DeletedObjectService;
 import org.hisp.dhis.organisationunit.OrganisationUnitGroup;
 import org.hisp.dhis.organisationunit.OrganisationUnitGroupStore;
 import org.hisp.dhis.security.acl.AclService;
@@ -48,9 +49,9 @@ public class HibernateOrganisationUnitGroupStore
     implements OrganisationUnitGroupStore
 {
     public HibernateOrganisationUnitGroupStore( SessionFactory sessionFactory, JdbcTemplate jdbcTemplate,
-        ApplicationEventPublisher publisher, CurrentUserService currentUserService, AclService aclService )
+        ApplicationEventPublisher publisher, CurrentUserService currentUserService, DeletedObjectService deletedObjectService, AclService aclService )
     {
-        super( sessionFactory, jdbcTemplate, publisher, OrganisationUnitGroup.class, currentUserService, aclService,
+        super( sessionFactory, jdbcTemplate, publisher, OrganisationUnitGroup.class, currentUserService, deletedObjectService, aclService,
             true );
     }
 

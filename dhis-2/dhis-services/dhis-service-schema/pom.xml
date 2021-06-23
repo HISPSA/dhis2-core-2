@@ -6,7 +6,11 @@
   <parent>
     <groupId>org.hisp.dhis</groupId>
     <artifactId>dhis-services</artifactId>
+<<<<<<< HEAD
     <version>2.35.5</version>
+=======
+    <version>2.35.3</version>
+>>>>>>> c66e5732b25a19f32daf7bf6f98a0d7599b4c171
   </parent>
 
   <artifactId>dhis-service-schema</artifactId>

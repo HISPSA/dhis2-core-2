@@ -34,6 +34,7 @@ import org.hisp.dhis.common.hibernate.HibernateIdentifiableObjectStore;
 import org.hisp.dhis.dashboard.Dashboard;
 import org.hisp.dhis.dashboard.DashboardItem;
 import org.hisp.dhis.dashboard.DashboardItemStore;
+import org.hisp.dhis.deletedobject.DeletedObjectService;
 import org.hisp.dhis.document.Document;
 import org.hisp.dhis.eventchart.EventChart;
 import org.hisp.dhis.mapping.Map;
@@ -55,9 +56,9 @@ public class HibernateDashboardItemStore extends HibernateIdentifiableObjectStor
     implements DashboardItemStore
 {
     public HibernateDashboardItemStore( SessionFactory sessionFactory, JdbcTemplate jdbcTemplate,
-        ApplicationEventPublisher publisher, CurrentUserService currentUserService, AclService aclService )
+        ApplicationEventPublisher publisher, CurrentUserService currentUserService, DeletedObjectService deletedObjectService, AclService aclService )
     {
-        super( sessionFactory, jdbcTemplate, publisher, DashboardItem.class, currentUserService, aclService, false );
+        super( sessionFactory, jdbcTemplate, publisher, DashboardItem.class, currentUserService, deletedObjectService, aclService, false );
     }
 
     @Override

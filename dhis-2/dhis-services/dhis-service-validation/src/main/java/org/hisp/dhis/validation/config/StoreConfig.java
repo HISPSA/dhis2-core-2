@@ -29,6 +29,7 @@ package org.hisp.dhis.validation.config;
 
 import org.hibernate.SessionFactory;
 import org.hisp.dhis.common.hibernate.HibernateIdentifiableObjectStore;
+import org.hisp.dhis.deletedobject.DeletedObjectService;
 import org.hisp.dhis.security.acl.AclService;
 import org.hisp.dhis.user.CurrentUserService;
 import org.hisp.dhis.validation.ValidationRuleGroup;
@@ -56,6 +57,9 @@ public class StoreConfig
 
     @Autowired
     private CurrentUserService currentUserService;
+    
+    @Autowired
+    private DeletedObjectService deletedObjectService;
 
     @Autowired
     private AclService aclService;
@@ -65,7 +69,7 @@ public class StoreConfig
     {
         return new HibernateIdentifiableObjectStore<ValidationNotificationTemplate>(
             sessionFactory, jdbcTemplate, publisher, ValidationNotificationTemplate.class, currentUserService,
-            aclService, true );
+            deletedObjectService, aclService, true );
     }
 
     @Bean( "org.hisp.dhis.validation.ValidationRuleGroupStore" )
@@ -73,6 +77,6 @@ public class StoreConfig
     {
         return new HibernateIdentifiableObjectStore<ValidationRuleGroup>(
             sessionFactory, jdbcTemplate, publisher, ValidationRuleGroup.class, currentUserService,
-            aclService, true );
+            deletedObjectService, aclService, true );
     }
 }

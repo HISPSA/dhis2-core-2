@@ -49,6 +49,7 @@ import org.hisp.dhis.common.hibernate.HibernateIdentifiableObjectStore;
 import org.hisp.dhis.commons.util.DebugUtils;
 import org.hisp.dhis.commons.util.SystemUtils;
 import org.hisp.dhis.dbms.DbmsUtils;
+import org.hisp.dhis.deletedobject.DeletedObjectService;
 import org.hisp.dhis.period.Period;
 import org.hisp.dhis.period.PeriodStore;
 import org.hisp.dhis.period.PeriodType;
@@ -79,10 +80,10 @@ public class HibernatePeriodStore
     private CacheProvider cacheProvider;
 
     public HibernatePeriodStore( SessionFactory sessionFactory, JdbcTemplate jdbcTemplate,
-        ApplicationEventPublisher publisher, CurrentUserService currentUserService, AclService aclService,
+        ApplicationEventPublisher publisher, CurrentUserService currentUserService, DeletedObjectService deletedObjectService, AclService aclService,
         Environment env, CacheProvider cacheProvider )
     {
-        super( sessionFactory, jdbcTemplate, publisher, Period.class, currentUserService, aclService, true );
+        super( sessionFactory, jdbcTemplate, publisher, Period.class, currentUserService, deletedObjectService, aclService, true );
 
         transientIdentifiableProperties = true;
 

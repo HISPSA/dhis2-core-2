@@ -31,6 +31,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.hisp.dhis.common.hibernate.HibernateIdentifiableObjectStore;
 import org.hisp.dhis.dataset.DataSet;
+import org.hisp.dhis.deletedobject.DeletedObjectService;
 import org.hisp.dhis.security.acl.AclService;
 import org.hisp.dhis.user.CurrentUserService;
 import org.hisp.dhis.user.UserAuthorityGroup;
@@ -48,9 +49,9 @@ public class HibernateUserAuthorityGroupStore
     implements UserAuthorityGroupStore
 {
     public HibernateUserAuthorityGroupStore( SessionFactory sessionFactory, JdbcTemplate jdbcTemplate,
-        ApplicationEventPublisher publisher, CurrentUserService currentUserService, AclService aclService )
+        ApplicationEventPublisher publisher, CurrentUserService currentUserService, DeletedObjectService deletedObjectService, AclService aclService )
     {
-        super( sessionFactory, jdbcTemplate, publisher, UserAuthorityGroup.class, currentUserService, aclService,
+        super( sessionFactory, jdbcTemplate, publisher, UserAuthorityGroup.class, currentUserService, deletedObjectService, aclService,
             true );
     }
 

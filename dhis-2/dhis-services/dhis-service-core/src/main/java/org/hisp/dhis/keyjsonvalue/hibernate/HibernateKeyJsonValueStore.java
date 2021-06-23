@@ -35,6 +35,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.hisp.dhis.common.hibernate.HibernateIdentifiableObjectStore;
+import org.hisp.dhis.deletedobject.DeletedObjectService;
 import org.hisp.dhis.keyjsonvalue.KeyJsonValue;
 import org.hisp.dhis.keyjsonvalue.KeyJsonValueStore;
 import org.hisp.dhis.security.acl.AclService;
@@ -52,9 +53,9 @@ public class HibernateKeyJsonValueStore
     implements KeyJsonValueStore
 {
     public HibernateKeyJsonValueStore( SessionFactory sessionFactory, JdbcTemplate jdbcTemplate,
-        ApplicationEventPublisher publisher, CurrentUserService currentUserService, AclService aclService )
+        ApplicationEventPublisher publisher, CurrentUserService currentUserService, DeletedObjectService deletedObjectService, AclService aclService )
     {
-        super( sessionFactory, jdbcTemplate, publisher, KeyJsonValue.class, currentUserService, aclService,
+        super( sessionFactory, jdbcTemplate, publisher, KeyJsonValue.class, currentUserService, deletedObjectService, aclService,
             true );
     }
 
