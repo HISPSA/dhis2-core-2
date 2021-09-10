@@ -9,7 +9,6 @@
     <groupId>org.hisp.dhis</groupId>
     <version>2.35.7-EMBARGOED</version>
   </parent>
-
   <artifactId>dhis-support-commons</artifactId>
   <packaging>jar</packaging>
   <name>DHIS Support Commons</name>

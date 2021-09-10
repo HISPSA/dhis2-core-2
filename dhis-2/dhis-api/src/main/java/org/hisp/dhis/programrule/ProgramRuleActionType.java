@@ -46,6 +46,7 @@ public enum ProgramRuleActionType
     DISPLAYTEXT( "displaytext" ),
     DISPLAYKEYVALUEPAIR( "displaykeyvaluepair" ),
     HIDEFIELD( "hidefield" ),
+    HIDEFIELDNODELETE( "hidefieldnodelete" ), 
     HIDESECTION( "hidesection" ),
     HIDEPROGRAMSTAGE( "hideprogramstage" ),
     ASSIGN( "assign", ON_DATA_ENTRY, ON_COMPLETE ),
@@ -76,7 +77,7 @@ public enum ProgramRuleActionType
      * {@link TrackedEntityAttribute}.
      */
     public static final ImmutableSet<ProgramRuleActionType> DATA_LINKED_TYPES = ImmutableSet.of(
-        HIDEFIELD, SETMANDATORYFIELD, HIDEOPTION, HIDEOPTIONGROUP, SHOWOPTIONGROUP );
+        HIDEFIELD, HIDEFIELDNODELETE, SETMANDATORYFIELD, HIDEOPTION, HIDEOPTIONGROUP, SHOWOPTIONGROUP );
 
     /**
      * Actions associated with {@link NotificationTemplate}.

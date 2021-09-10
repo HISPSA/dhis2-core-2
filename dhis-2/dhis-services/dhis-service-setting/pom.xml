@@ -6,7 +6,9 @@
   <parent>
     <groupId>org.hisp.dhis</groupId>
     <artifactId>dhis-services</artifactId>
+
     <version>2.35.7-EMBARGOED</version>
+
   </parent>
   
   <artifactId>dhis-service-setting</artifactId>
