@@ -7,7 +7,6 @@
     <artifactId>dhis-web</artifactId>
     <version>2.35.8-EMBARGOED</version>
   </parent>
-
   <artifactId>dhis-web-uaa</artifactId>
   <packaging>war</packaging>
   <name>DHIS User Account and Authentication (UAA) Server</name>

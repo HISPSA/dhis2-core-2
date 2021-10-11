@@ -6,7 +6,11 @@
   <parent>
     <groupId>org.hisp.dhis</groupId>
     <artifactId>dhis-services</artifactId>
+<<<<<<< HEAD
     <version>2.35.8-EMBARGOED</version>
+=======
+    <version>2.35.7-EMBARGOED</version>
+>>>>>>> 5fd4d1536691d7cc0e252d5e87b4a877de05800c
   </parent>
 
   <artifactId>dhis-service-node</artifactId>

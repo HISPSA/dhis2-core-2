@@ -61,6 +61,7 @@ import org.hisp.dhis.common.BaseIdentifiableObject;
 import org.hisp.dhis.common.GenericDimensionalObjectStore;
 import org.hisp.dhis.common.IdentifiableObject;
 import org.hisp.dhis.dashboard.Dashboard;
+import org.hisp.dhis.deletedobject.DeletedObjectService;
 import org.hisp.dhis.hibernate.HibernateGenericStore;
 import org.hisp.dhis.hibernate.InternalHibernateGenericStore;
 import org.hisp.dhis.hibernate.JpaQueryParameters;
@@ -91,6 +92,8 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
     extends HibernateGenericStore<T> implements GenericDimensionalObjectStore<T>, InternalHibernateGenericStore<T>
 {
     protected CurrentUserService currentUserService;
+    
+    private DeletedObjectService deletedObjectService;
 
     protected AclService aclService;
 
@@ -98,14 +101,16 @@ public class HibernateIdentifiableObjectStore<T extends BaseIdentifiableObject>
 
     public HibernateIdentifiableObjectStore( SessionFactory sessionFactory, JdbcTemplate jdbcTemplate,
         ApplicationEventPublisher publisher, Class<T> clazz, CurrentUserService currentUserService,
-        AclService aclService, boolean cacheable )
+        DeletedObjectService deletedObjectService, AclService aclService, boolean cacheable )
     {
         super( sessionFactory, jdbcTemplate, publisher, clazz, cacheable );
 
         checkNotNull( currentUserService );
+        checkNotNull( deletedObjectService );
         checkNotNull( aclService );
 
         this.currentUserService = currentUserService;
+        this.deletedObjectService = deletedObjectService;
         this.aclService = aclService;
         this.cacheable = cacheable;
     }

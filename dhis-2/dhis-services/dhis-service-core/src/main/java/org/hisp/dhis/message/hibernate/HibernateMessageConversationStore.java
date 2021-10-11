@@ -37,6 +37,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.hisp.dhis.common.hibernate.HibernateIdentifiableObjectStore;
+import org.hisp.dhis.deletedobject.DeletedObjectService;
 import org.hisp.dhis.jdbc.StatementBuilder;
 import org.hisp.dhis.message.MessageConversation;
 import org.hisp.dhis.message.MessageConversationStatus;
@@ -65,10 +66,10 @@ public class HibernateMessageConversationStore
     private StatementBuilder statementBuilder;
 
     public HibernateMessageConversationStore( SessionFactory sessionFactory, JdbcTemplate jdbcTemplate,
-        ApplicationEventPublisher publisher, CurrentUserService currentUserService, AclService aclService,
+        ApplicationEventPublisher publisher, CurrentUserService currentUserService, DeletedObjectService deletedObjectService, AclService aclService,
         StatementBuilder statementBuilder )
     {
-        super( sessionFactory, jdbcTemplate, publisher, MessageConversation.class, currentUserService, aclService,
+        super( sessionFactory, jdbcTemplate, publisher, MessageConversation.class, currentUserService, deletedObjectService, aclService,
             false );
 
         checkNotNull( statementBuilder );
