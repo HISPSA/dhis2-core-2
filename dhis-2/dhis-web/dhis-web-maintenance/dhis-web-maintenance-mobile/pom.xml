@@ -5,7 +5,11 @@
    <parent>
     <groupId>org.hisp.dhis</groupId>
     <artifactId>dhis-web-maintenance</artifactId>
+<<<<<<< HEAD
     <version>2.35.8-EMBARGOED</version>
+=======
+    <version>2.35.3</version>
+>>>>>>> 6209eec6325fb8beca93d2c3c9a5f54aebf3425e
   </parent>  
 
   <artifactId>dhis-web-maintenance-mobile</artifactId>
