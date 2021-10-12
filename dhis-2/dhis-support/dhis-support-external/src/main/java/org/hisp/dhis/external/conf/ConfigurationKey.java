@@ -61,11 +61,7 @@ public enum ConfigurationKey
     CONNECTION_POOL_TEST_ON_CHECKOUT( "connection.pool.test.on.checkout", Constants.FALSE, false ),
     CONNECTION_POOL_TEST_ON_CHECKIN( "connection.pool.test.on.checkin", Constants.TRUE, false ),
     CONNECTION_POOL_NUM_THREADS( "connection.pool.num.helper.threads", "3", false ),
-<<<<<<< HEAD
     CONNECTION_POOL_TEST_QUERY( "connection.pool.preferred.test.query" ),
-=======
-    CONNECTION_POOL_TEST_QUERY( "connection.pool.preferred.test.query", "", false ),
->>>>>>> 5fd4d1536691d7cc0e252d5e87b4a877de05800c
     LDAP_URL( "ldap.url", "ldaps://0:1", false ),
     LDAP_MANAGER_DN( "ldap.manager.dn", "", false ),
     LDAP_MANAGER_PASSWORD( "ldap.manager.password", "", true ),
