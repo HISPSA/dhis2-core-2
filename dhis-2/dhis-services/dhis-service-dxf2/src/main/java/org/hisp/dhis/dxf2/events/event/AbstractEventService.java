@@ -73,13 +73,20 @@ import org.hisp.dhis.category.CategoryService;
 import org.hisp.dhis.common.CodeGenerator;
 import org.hisp.dhis.common.Grid;
 import org.hisp.dhis.common.GridHeader;
+<<<<<<< HEAD
+=======
+import org.hisp.dhis.common.IdScheme;
+>>>>>>> 5700f89c394b19deeb7f9d788e8d2957a6033539
 import org.hisp.dhis.common.IdSchemes;
 import org.hisp.dhis.common.IdentifiableObjectManager;
 import org.hisp.dhis.common.IllegalQueryException;
 import org.hisp.dhis.common.OrganisationUnitSelectionMode;
 import org.hisp.dhis.common.Pager;
 import org.hisp.dhis.common.QueryItem;
+<<<<<<< HEAD
 import org.hisp.dhis.common.event.ApplicationCacheClearedEvent;
+=======
+>>>>>>> 5700f89c394b19deeb7f9d788e8d2957a6033539
 import org.hisp.dhis.commons.collection.CachingMap;
 import org.hisp.dhis.commons.util.DebugUtils;
 import org.hisp.dhis.dataelement.DataElement;
@@ -102,6 +109,7 @@ import org.hisp.dhis.dxf2.importsummary.ImportSummary;
 import org.hisp.dhis.event.EventStatus;
 import org.hisp.dhis.eventdatavalue.EventDataValue;
 import org.hisp.dhis.fileresource.FileResourceService;
+import org.hisp.dhis.hibernate.HibernateUtils;
 import org.hisp.dhis.organisationunit.OrganisationUnit;
 import org.hisp.dhis.organisationunit.OrganisationUnitService;
 import org.hisp.dhis.program.EventSyncService;
@@ -920,7 +928,8 @@ public abstract class AbstractEventService
     private OrganisationUnit getOrganisationUnit( IdSchemes idSchemes, String id )
     {
         return organisationUnitCache.get( id,
-            () -> manager.getObject( OrganisationUnit.class, idSchemes.getOrgUnitIdScheme(), id ) );
+            () -> HibernateUtils
+                .initializeProxy( manager.getObject( OrganisationUnit.class, idSchemes.getOrgUnitIdScheme(), id ) ) );
     }
 
     /**
@@ -932,9 +941,15 @@ public abstract class AbstractEventService
      */
     private boolean getDataElement( String userUid, String dataElementUid )
     {
+<<<<<<< HEAD
         String key = userUid + "-" + dataElementUid;
         return DATA_ELEM_CACHE.get( key, k -> manager.get( DataElement.class, dataElementUid ) != null )
             .orElse( false );
+=======
+        return DATA_ELEM_CACHE
+            .get( id, s -> HibernateUtils.initializeProxy( manager.getObject( DataElement.class, idScheme, id ) ) )
+            .orElse( null );
+>>>>>>> 5700f89c394b19deeb7f9d788e8d2957a6033539
     }
 
     @Override
