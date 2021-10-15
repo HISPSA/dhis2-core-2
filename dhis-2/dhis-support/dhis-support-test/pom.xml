@@ -5,11 +5,7 @@
   <parent>
     <groupId>org.hisp.dhis</groupId>
     <artifactId>dhis-support</artifactId>
-<<<<<<< HEAD
     <version>2.35.8-EMBARGOED</version>
-=======
-    <version>2.35.5</version>
->>>>>>> 5700f89c394b19deeb7f9d788e8d2957a6033539
   </parent>
 
   <artifactId>dhis-support-test</artifactId>
