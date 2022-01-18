@@ -156,11 +156,7 @@ public class RequestIdentifierFilterTest
     private void init( int maxSize, String hashAlgo, boolean enabled )
     {
 
-<<<<<<< HEAD
         when( dhisConfigurationProvider.getProperty( LOGGING_REQUEST_ID_MAX_SIZE ) )
-=======
-        when( dhisConfigurationProvider.getProperty( LOGGING_REQUEST_ID_MAXSIZE ) )
->>>>>>> dc1e4c22d15acb44a6e6860609c9388856b2ebec
             .thenReturn( Integer.toString( maxSize ) );
         when( dhisConfigurationProvider.isEnabled( LOGGING_REQUEST_ID_ENABLED ) ).thenReturn( enabled );
         when( dhisConfigurationProvider.getProperty( LOGGING_REQUEST_ID_HASH ) ).thenReturn( hashAlgo );
