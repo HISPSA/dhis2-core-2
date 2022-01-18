@@ -6,7 +6,11 @@ pipeline {
     }
 
     triggers {
+<<<<<<< HEAD
         cron('H 23 * * 1,2,3,4,5,7')
+=======
+        cron('H 20 * * 1-5')
+>>>>>>> dc1e4c22d15acb44a6e6860609c9388856b2ebec
     }
 
     options {
