@@ -208,13 +208,7 @@ public class HibernateTrackedEntityInstanceStore
         return ids;
     }
 
-    private String encodeAndQuote( Collection<String> elements )
-    {
-        return getQuotedCommaDelimitedString( elements.stream()
-            .map( element -> statementBuilder.encode( element, false ) )
-            .collect( Collectors.toList() ) );
-    }
-
+    
     private String encodeAndQuote( Collection<String> elements )
     {
         return getQuotedCommaDelimitedString( elements.stream()
@@ -1413,72 +1407,6 @@ public class HibernateTrackedEntityInstanceStore
         }
     }
 
-<<<<<<< HEAD
-=======
-    private List<String> getStaticGridColumns()
-    {
-        return Arrays.asList( TRACKED_ENTITY_INSTANCE_ID, CREATED_ID, LAST_UPDATED_ID, ORG_UNIT_ID, ORG_UNIT_NAME,
-            TRACKED_ENTITY_ID, INACTIVE_ID );
-    }
-
-    private String getEventWhereClauseHql( TrackedEntityInstanceQueryParams params )
-    {
-        String hql = "";
-
-        if ( params.hasEventStatus() )
-        {
-            String start = getMediumDateString( params.getEventStartDate() );
-            String end = getMediumDateString( params.getEventEndDate() );
-
-            if ( params.isEventStatus( EventStatus.COMPLETED ) )
-            {
-                hql += " psi.executionDate >= '" + start + "' and psi.executionDate <= '" + end + "' "
-                    + AND_PSI_STATUS_EQUALS_SINGLE_QUOTE + EventStatus.COMPLETED.name()
-                    + "' and ";
-            }
-            else if ( params.isEventStatus( EventStatus.VISITED ) || params.isEventStatus( EventStatus.ACTIVE ) )
-            {
-                hql += " psi.executionDate >= '" + start + "' and psi.executionDate <= '" + end + "' "
-                    + AND_PSI_STATUS_EQUALS_SINGLE_QUOTE + EventStatus.ACTIVE.name()
-                    + "' and ";
-            }
-            else if ( params.isEventStatus( EventStatus.SCHEDULE ) )
-            {
-                hql += " psi.executionDate is null and psi.dueDate >= '" + start + "' and psi.dueDate <= '" + end + "' "
-                    + "and psi.status is not null and current_date <= psi.dueDate and ";
-            }
-            else if ( params.isEventStatus( EventStatus.OVERDUE ) )
-            {
-                hql += " psi.executionDate is null and psi.dueDate >= '" + start + "' and psi.dueDate <= '" + end + "' "
-                    + "and psi.status is not null and current_date > psi.dueDate and ";
-            }
-            else if ( params.isEventStatus( EventStatus.SKIPPED ) )
-            {
-                hql += " psi.dueDate >= '" + start + "' and psi.dueDate <= '" + end + "' "
-                    + AND_PSI_STATUS_EQUALS_SINGLE_QUOTE + EventStatus.SKIPPED.name() + "' and ";
-            }
-        }
-
-        if ( params.hasProgramStage() )
-        {
-            hql += " psi.programStage.uid = " + params.getProgramStage().getUid() + " and ";
-        }
-
-        hql += addConditionally( params.hasAssignedUsers(),
-            () -> "(au.uid in (" + getQuotedCommaDelimitedString( params.getAssignedUsers() ) + ")) and" );
-
-        hql += addConditionally( params.isIncludeOnlyUnassignedEvents(),
-            () -> "(psi.assignedUser is null) and" );
-
-        hql += addConditionally( params.isIncludeOnlyAssignedEvents(),
-            () -> "(psi.assignedUser is not null) and" );
-
-        hql += " psi.deleted=false ";
-
-        return hql;
-    }
-
->>>>>>> dc1e4c22d15acb44a6e6860609c9388856b2ebec
     @Override
     public boolean exists( String uid )
     {
