@@ -880,8 +880,6 @@ public class HibernateTrackedEntityInstanceStore
     private String getFromSubQueryProgramInstanceConditions( SqlHelper whereAnd,
         TrackedEntityInstanceQueryParams params )
     {
-        SqlHelper hlp = new SqlHelper( true );
-
         StringBuilder program = new StringBuilder();
 
         if ( !params.hasProgram() )
@@ -904,7 +902,8 @@ public class HibernateTrackedEntityInstanceStore
             program.append( getFromSubQueryProgramStageInstance( params ) );
         }
 
-        program.append( hlp.whereAnd() ).append( " PI.trackedentityinstanceid = TEI.trackedentityinstanceid " )
+        program
+            .append( "WHERE PI.trackedentityinstanceid = TEI.trackedentityinstanceid " )
             .append( "AND PI.programid = " )
             .append( params.getProgram().getId() )
             .append( SPACE );

@@ -30,7 +30,11 @@ package org.hisp.dhis.servlet.filter;
 import static org.hamcrest.Matchers.is;
 import static org.hisp.dhis.external.conf.ConfigurationKey.LOGGING_REQUEST_ID_ENABLED;
 import static org.hisp.dhis.external.conf.ConfigurationKey.LOGGING_REQUEST_ID_HASH;
+<<<<<<< HEAD
 import static org.hisp.dhis.external.conf.ConfigurationKey.LOGGING_REQUEST_ID_MAX_SIZE;
+=======
+import static org.hisp.dhis.external.conf.ConfigurationKey.LOGGING_REQUEST_ID_MAXSIZE;
+>>>>>>> 6529d13977653fdad3eee27956cfd4dd3c898df7
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
@@ -156,7 +160,11 @@ public class RequestIdentifierFilterTest
     private void init( int maxSize, String hashAlgo, boolean enabled )
     {
 
+<<<<<<< HEAD
         when( dhisConfigurationProvider.getProperty( LOGGING_REQUEST_ID_MAX_SIZE ) )
+=======
+        when( dhisConfigurationProvider.getProperty( LOGGING_REQUEST_ID_MAXSIZE ) )
+>>>>>>> 6529d13977653fdad3eee27956cfd4dd3c898df7
             .thenReturn( Integer.toString( maxSize ) );
         when( dhisConfigurationProvider.isEnabled( LOGGING_REQUEST_ID_ENABLED ) ).thenReturn( enabled );
         when( dhisConfigurationProvider.getProperty( LOGGING_REQUEST_ID_HASH ) ).thenReturn( hashAlgo );
