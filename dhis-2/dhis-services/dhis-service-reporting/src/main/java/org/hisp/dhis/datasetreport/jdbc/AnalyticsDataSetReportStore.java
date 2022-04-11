@@ -248,4 +248,40 @@ public class AnalyticsDataSetReportStore
 
         return dataMap;
     }
+    
+    @Override
+    public Map<String, Object> getAggregatedGrandTotals( List<DataElement> dataElements, Period period,
+        OrganisationUnit unit, Set<String> dimensions )
+    {
+        
+        FilterUtils.filter( dataElements, AggregatableDataElementFilter.INSTANCE );
+        
+        if ( dataElements.isEmpty() )
+        {
+            return new HashMap<>();
+        }
+        
+        DataQueryParams.Builder params = DataQueryParams.newBuilder()
+            .withDataElements( dataElements )
+            .withPeriod( period )
+            .withOrganisationUnit( unit )
+            .withCategoryOptionCombos( Lists.newArrayList() );
+        
+        if ( dimensions != null )
+        {
+            params.addFilters( dataQueryService.getDimensionalObjects( dimensions, null, null, null, false, IdScheme.UID ) );
+        }
+        
+        Map<String, Object> map = analyticsService.getAggregatedDataValueMapping( params.build() );
+        
+        Map<String, Object> dataMap = new HashMap<>();
+        
+        for ( Entry<String, Object> entry : map.entrySet() )
+        {
+            String[] split = entry.getKey().split( SEPARATOR );            
+            dataMap.put( split[0] + SEPARATOR + split[3], entry.getValue() );
+        }
+        
+        return dataMap;
+    }
 }
