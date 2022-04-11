@@ -29,11 +29,7 @@ package org.hisp.dhis.webapi.filter;
 
 import static org.hisp.dhis.external.conf.ConfigurationKey.LOGGING_REQUEST_ID_ENABLED;
 import static org.hisp.dhis.external.conf.ConfigurationKey.LOGGING_REQUEST_ID_HASH;
-<<<<<<< HEAD
 import static org.hisp.dhis.external.conf.ConfigurationKey.LOGGING_REQUEST_ID_MAX_SIZE;
-=======
-import static org.hisp.dhis.external.conf.ConfigurationKey.LOGGING_REQUEST_ID_MAXSIZE;
->>>>>>> ed6845683e6c4d7e7d1d84f55092be9184ccb501
 
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -84,11 +80,7 @@ public class RequestIdentifierFilter
     public RequestIdentifierFilter( DhisConfigurationProvider dhisConfig )
     {
         this.hashAlgo = dhisConfig.getProperty( LOGGING_REQUEST_ID_HASH );
-<<<<<<< HEAD
         this.maxSize = Integer.parseInt( dhisConfig.getProperty( LOGGING_REQUEST_ID_MAX_SIZE ) );
-=======
-        this.maxSize = Integer.parseInt( dhisConfig.getProperty( LOGGING_REQUEST_ID_MAXSIZE ) );
->>>>>>> ed6845683e6c4d7e7d1d84f55092be9184ccb501
         this.enabled = dhisConfig.isEnabled( LOGGING_REQUEST_ID_ENABLED );
     }
 
