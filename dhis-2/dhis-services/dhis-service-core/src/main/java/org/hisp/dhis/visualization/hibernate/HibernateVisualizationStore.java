@@ -67,7 +67,7 @@ public class HibernateVisualizationStore
         ApplicationEventPublisher publisher, CurrentUserService currentUserService,
         DeletedObjectService deletedObjectService, AclService aclService )
     {
-        super( sessionFactory, jdbcTemplate, publisher, Visualization.class, currentUserService, aclService, true );
+        super( sessionFactory, jdbcTemplate, publisher, Visualization.class, currentUserService, deletedObjectService, aclService, true );
     }
 
     @Override

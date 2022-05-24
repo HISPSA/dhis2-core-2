@@ -78,6 +78,7 @@ import org.hisp.dhis.common.QueryItem;
 import org.hisp.dhis.common.QueryOperator;
 import org.hisp.dhis.common.hibernate.SoftDeleteHibernateObjectStore;
 import org.hisp.dhis.commons.util.SqlHelper;
+import org.hisp.dhis.deletedobject.DeletedObjectService;
 import org.hisp.dhis.dxf2.events.event.EventContext;
 import org.hisp.dhis.event.EventStatus;
 import org.hisp.dhis.jdbc.StatementBuilder;
@@ -147,10 +148,10 @@ public class HibernateTrackedEntityInstanceStore
     private final static String SELECT_TEI = "select tei from";
 
     public HibernateTrackedEntityInstanceStore( SessionFactory sessionFactory, JdbcTemplate jdbcTemplate,
-        ApplicationEventPublisher publisher, CurrentUserService currentUserService,
+        ApplicationEventPublisher publisher, CurrentUserService currentUserService, DeletedObjectService deletedObjectService,
         AclService aclService, OrganisationUnitStore organisationUnitStore, StatementBuilder statementBuilder )
     {
-        super( sessionFactory, jdbcTemplate, publisher, TrackedEntityInstance.class, currentUserService, aclService,
+        super( sessionFactory, jdbcTemplate, publisher, TrackedEntityInstance.class, currentUserService, deletedObjectService, aclService,
             false );
 
         checkNotNull( statementBuilder );
@@ -880,8 +881,6 @@ public class HibernateTrackedEntityInstanceStore
     private String getFromSubQueryProgramInstanceConditions( SqlHelper whereAnd,
         TrackedEntityInstanceQueryParams params )
     {
-        SqlHelper hlp = new SqlHelper( true );
-
         StringBuilder program = new StringBuilder();
 
         if ( !params.hasProgram() )
@@ -904,7 +903,8 @@ public class HibernateTrackedEntityInstanceStore
             program.append( getFromSubQueryProgramStageInstance( params ) );
         }
 
-        program.append( hlp.whereAnd() ).append( " PI.trackedentityinstanceid = TEI.trackedentityinstanceid " )
+        program
+            .append( "WHERE PI.trackedentityinstanceid = TEI.trackedentityinstanceid " )
             .append( "AND PI.programid = " )
             .append( params.getProgram().getId() )
             .append( SPACE );

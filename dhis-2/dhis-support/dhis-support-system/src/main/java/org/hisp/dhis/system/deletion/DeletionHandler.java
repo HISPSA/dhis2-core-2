@@ -27,6 +27,7 @@
  */
 package org.hisp.dhis.system.deletion;
 
+import org.hisp.dhis.approvalvalidationrule.ApprovalValidationRule;
 import org.hisp.dhis.attribute.Attribute;
 import org.hisp.dhis.attribute.AttributeValue;
 import org.hisp.dhis.category.Category;
@@ -1094,5 +1095,14 @@ public abstract class DeletionHandler
     public void deleteOutboundSms( OutboundSms sms )
     {
 
+    }
+    
+    public void deleteApprovalValidationRule( ApprovalValidationRule approvalValidationRule )
+    {
+    }
+    
+    public String allowDeleteApprovalValidationRule( ApprovalValidationRule approvalValidationRule )
+    {
+        return null;
     }
 }

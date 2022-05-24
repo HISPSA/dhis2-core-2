@@ -485,7 +485,7 @@ public class DimensionServiceTest
         DataElementOperand deoA = new DataElementOperand( deA, cocA );
         DataElementOperand deoB = new DataElementOperand( deA, null );
         DataElementOperand deoC = new DataElementOperand( deA, cocA, cocA );
-        DataElementOperand deoD = new DataElementOperand( deA, cocA, null );
+        DataElementOperand deoD = new DataElementOperand( deA, cocA, cocA );
         DataElementOperand deoE = new DataElementOperand( deA, null, cocA );
 
         assertNotNull( dimensionService.getDataDimensionalItemObject( idA ) );
